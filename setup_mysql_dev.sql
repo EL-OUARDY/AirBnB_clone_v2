@@ -1,4 +1,4 @@
--- prepares a MySQL server for the project
+-- prepares a MySQL server for the project (developement)
 -- create database hbnb_dev_db for developement purpose
 CREATE DATABASE IF NOT EXISTS hbnb_dev_db;
 
