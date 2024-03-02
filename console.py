@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """ Console Module """
+from os import getenv
 import cmd
 import sys
 from models.base_model import BaseModel
@@ -165,7 +166,7 @@ class HBNBCommand(cmd.Cmd):
             return
 
         # pick the right storage
-        if os.getenv("HBNB_TYPE_STORAGE") == "db":
+        if getenv("HBNB_TYPE_STORAGE") == "db":
             self.db_storage_create(class_name, dict)
         else:
             self.file_storage_create(class_name, dict)
