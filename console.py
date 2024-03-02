@@ -164,15 +164,17 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
             return
 
-        # create object with it's parameters
+        # create object without parameters
         new_instance = HBNBCommand.classes[class_name]()
-        storage.save()
+        new_instance.save()
         print(new_instance.id)
 
-        # call update function with our dictionary
-        update_command_args = f"{class_name} {new_instance.id} {dict}"
-        self.do_update(update_command_args)
-        storage.save()
+        # handle object with parameters
+        # call update function with parameters dictionary
+        if dict:  # if a dictionary has provided
+            update_command_args = f"{class_name} {new_instance.id} {dict}"
+            self.do_update(update_command_args)
+            new_instance.save()
 
     def help_create(self):
         """Help information for the create method"""
