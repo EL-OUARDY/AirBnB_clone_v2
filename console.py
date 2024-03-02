@@ -144,6 +144,9 @@ class HBNBCommand(cmd.Cmd):
 
                 if value.isdigit():  # check if integer
                     value = int(value)
+                # check negative integers
+                elif value[0] == "-" and value[1:].isdigit():
+                    value = int(value)
                 elif value.replace(
                     ".", "", 1
                 ).isdigit():  # check if valid float
@@ -347,10 +350,10 @@ class HBNBCommand(cmd.Cmd):
                 att_val = args[i + 1]  # following item is value
                 if not att_name:  # check for att_name
                     print("** attribute name missing **")
-                    return
-                if not att_val:  # check for att_value
+                    continue
+                if att_val is None:  # check for att_value
                     print("** value missing **")
-                    return
+                    continue
                 # type cast as necessary
                 if att_name in HBNBCommand.types:
                     att_val = HBNBCommand.types[att_name](att_val)
