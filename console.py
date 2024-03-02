@@ -130,6 +130,7 @@ class HBNBCommand(cmd.Cmd):
             return
 
         # check if command contains parameters
+        dict = {}
         if " " in args and "=" in args:
             # get class & parameters from user input
             args = args.partition(" ")  # split classname from parameters
@@ -137,7 +138,6 @@ class HBNBCommand(cmd.Cmd):
             parameters = args[2].split(" ")  # list of (<key>=<value>)
 
             # parse key,value parameters and save them as a dictionary
-            dict = {}
             for p in parameters:
                 key = p.split("=")[0]
                 value = p.split("=")[1]
@@ -165,7 +165,7 @@ class HBNBCommand(cmd.Cmd):
         new_instance = HBNBCommand.classes[class_name]()
         storage.save()
         print(new_instance.id)
-        
+
         # call update function with our dictionary
         update_command_args = f"{class_name} {new_instance.id} {dict}"
         self.do_update(update_command_args)
