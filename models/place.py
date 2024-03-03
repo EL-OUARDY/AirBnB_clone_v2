@@ -1,9 +1,30 @@
 #!/usr/bin/python3
 """ Place Module for HBNB project """
 from models.base_model import BaseModel, Base
-from sqlalchemy import Column, String, ForeignKey, Integer, Float
+from sqlalchemy import Column, String, ForeignKey, Integer, Float, Table
 from os import getenv
 from sqlalchemy.orm import relationship
+
+if getenv("HBNB_TYPE_STORAGE") == "db":
+    # define an association table that links Place and Amenity
+    place_amenity = Table(
+        "place_amenity",
+        Base.metadata,
+        Column(
+            "place_id",
+            String(60),
+            ForeignKey("places.id"),
+            primary_key=True,
+            nullable=False,
+        ),
+        Column(
+            "amenity_id",
+            String(60),
+            ForeignKey("amenities.id"),
+            primary_key=True,
+            nullable=False,
+        ),
+    )
 
 
 class Place(BaseModel, Base):
@@ -23,6 +44,12 @@ class Place(BaseModel, Base):
         longitude = Column(Float, nullable=True)
         reviews = relationship(
             "Review", backref="places", cascade="all, delete"
+        )
+        amenities = relationship(
+            "Amenity",
+            secondary="place_amenity",
+            backref="place_amenities",
+            viewonly=False,
         )
     else:  # file storage case
         city_id = ""
@@ -47,3 +74,26 @@ class Place(BaseModel, Base):
                 obj for obj in reviews if obj.place_id == self.id
             ]
             return reviews_objects
+
+        @property
+        def amenities(self):
+            """returns a list of Amenity instances"""
+            from models import storage
+
+            amenities = storage.all("Amenity").values()
+            amenity_objects = [
+                obj for obj in amenities if obj.place_id == self.id
+            ]
+            return amenity_objects
+
+        @amenities.setter
+        def amenities(self, obj=None):
+            """
+            handles append method for adding an Amenity.id
+            to the attribute amenity_ids
+            """
+            from models import Amenity
+
+            if type(obj) is Amenity:  # should accept only Amenity object
+                if obj.id not in self.amenity_ids:  # no duplicates
+                    self.amenity_ids.append(obj.id)
