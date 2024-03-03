@@ -17,7 +17,7 @@ class FileStorage:
         Arguments:
             cls: target class
         """
-        if type(cls) == str:  # target class passed as string
+        if type(cls) is str:  # target class passed as string
             cls = self.get_app_classes().get(cls, None)
 
         if cls is None:

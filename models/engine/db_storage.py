@@ -43,7 +43,7 @@ class DBStorage:
         if not self.__session:
             self.reload()
         objects_dict = {}
-        if type(cls) == str:  # target class passed as string
+        if type(cls) is str:  # target class passed as string
             cls = self.get_app_classes().get(cls, None)
         if cls:
             for obj in self.__session.query(cls):
