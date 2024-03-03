@@ -47,15 +47,11 @@ class DBStorage:
             cls = self.get_app_classes().get(cls, None)
         if cls:
             for obj in self.__session.query(cls):
-                # remove _sa_instance_state key from dict
-                obj.__dict__.pop("_sa_instance_state", None)
                 objects_dict[obj.__class__.__name__ + "." + obj.id] = obj
         else:
             # query all types of objects
             for c in self.get_app_classes().values():
                 for obj in self.__session.query(c):
-                    # remove _sa_instance_state key from dict
-                    obj.__dict__.pop("_sa_instance_state", None)
                     objects_dict[obj.__class__.__name__ + "." + obj.id] = obj
         return objects_dict
 
