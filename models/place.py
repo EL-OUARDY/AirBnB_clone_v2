@@ -3,6 +3,7 @@
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, ForeignKey, Integer, Float
 from os import getenv
+from sqlalchemy.orm import relationship
 
 
 class Place(BaseModel, Base):
@@ -20,6 +21,9 @@ class Place(BaseModel, Base):
         price_by_night = Column(Integer, default=0, nullable=False)
         latitude = Column(Float, nullable=True)
         longitude = Column(Float, nullable=True)
+        reviews = relationship(
+            "Review", backref="places", cascade="all, delete"
+        )
     else:  # file storage case
         city_id = ""
         user_id = ""
@@ -32,3 +36,14 @@ class Place(BaseModel, Base):
         latitude = 0.0
         longitude = 0.0
         amenity_ids = []
+
+        @property
+        def reviews(self):
+            """returns a list of Review instances"""
+            from models import storage
+
+            reviews = storage.all("Review").values()
+            reviews_objects = [
+                obj for obj in reviews if obj.place_id == self.id
+            ]
+            return reviews_objects
