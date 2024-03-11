@@ -63,9 +63,51 @@ server {
 }
 ```
 
-## Difference Between root and alias on NGINX
+### Difference Between root and alias on NGINX
 - **root:** Specifies the document root directory where files will be served from.
 - **alias:** Creates a mapping between a URI and a specific location in the file system, allowing files to be served from outside the document root.
+
+## What is a tgz archive?
+A `.tgz` archive, also known as a tarball, combines the capabilities of two Unix/Linux utilities: **tar** and **gzip**. It's a common way to bundle multiple files and directories into a single compressed file for distribution or backup purposes. The .tgz extension indicates that the archive has been created by first using tar to bundle the files and directories together, and then using gzip to compress the resulting archive.
+
+Here's how you can create a .tgz archive from the command line:
+```shell
+tar -czvf archive_name.tgz file1 file2 directory1
+```
+Explanation of the options used:
+
+- ***-c***: Create a new archive.
+- ***-z***: Compress the archive using gzip.
+- ***-v***: Verbose mode (optional, shows the files being archived).
+- ***-f***: Specify the filename of the archive.
+
+To extract files from a .tgz archive, you can use:
+```shell
+tar -xzvf archive_name.tgz
+```
+This command will extract the contents of the archive while preserving the directory structure.
+### With Python
+In Python, you can create and extract .tgz archives using the tarfile module:
+```py
+import tarfile
+
+# Create a .tgz archive
+with tarfile.open('archive_name.tgz', 'w:gz') as tar:
+    tar.add('file1')
+    tar.add('file2')
+    tar.add('directory1')
+
+# Extract a .tgz archive
+with tarfile.open('archive_name.tgz', 'r:gz') as tar:
+    tar.extractall()
+```
+In the above code:
+
+- **open('archive_name.tgz', 'w:gz')** opens the archive for writing and gzip compression.
+- **tar.add('file1')** adds file1 to the archive.
+- **tar.extractall()** extracts all files from the archive to the current directory.
+
+`.tgz` archives are commonly used for packaging software distributions, transferring files over the internet, or creating backups due to their efficient compression and preservation of directory structure.
 
 ## Let's connect
 **Twitter:** https://twitter.com/_ELOUARDY \
