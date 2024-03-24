@@ -98,3 +98,7 @@ class FileStorage:
             "Place": Place,
             "Review": Review,
         }
+
+    def close(self):
+        """Deserialize JSON file to objects"""
+        self.reload()
