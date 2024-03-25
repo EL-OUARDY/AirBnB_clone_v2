@@ -5,6 +5,8 @@
 	width: 100%;
 	border: 1px solid #DDDDDD;
 	border-radius: 4px;
+	z-index: 99;
+	position: relative;
 }
 
 .locations {
@@ -18,7 +20,7 @@
 	border-right: 1px solid #DDDDDD;
 }
 
-.filter_amenities {
+.amenities {
 	display: inline;
 	vertical-align: middle;
 	height: 100%;
